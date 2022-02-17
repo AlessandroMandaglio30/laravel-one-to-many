@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <a href="{{route("posts.index")}}"><button type="button" class="btn btn-primary my-3">Torna all'index</button></a>
+    <a href="{{route("posts.index")}}"><button type="button" class="btn btn-primary my-3">Torna ai Post</button></a>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
