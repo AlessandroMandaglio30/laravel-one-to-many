@@ -16,7 +16,7 @@ class PostsController extends Controller
         "title" => "required|string|max:120",
         "content" => "required",
         "published" => "sometimes|accepted",
-        "category_id" => "nulllable|exists:categories,id"
+        "category_id" => "nullable|exists:categories,id"
     ];
     /**
      * Display a listing of the resource.
@@ -99,6 +99,8 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
+        $categories = Category::all();
+
         return view("admin.posts.edit", compact("post", "categories"));
     }
 
