@@ -7,13 +7,16 @@ use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use function GuzzleHttp\Promise\all;
+use App\Category;
+use CategoriesTableSeeder;
 
 class PostsController extends Controller
 {
     protected $validationRule = [
         "title" => "required|string|max:120",
         "content" => "required",
-        "published" => "sometimes|accepted"
+        "published" => "sometimes|accepted",
+        "category_id" => "nulllable|exists:categories,id"
     ];
     /**
      * Display a listing of the resource.
@@ -34,7 +37,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+
+        return view('admin.posts.create', compact("categories"));
     }
 
     /**
@@ -54,6 +59,7 @@ class PostsController extends Controller
         $newPost->title = $data["title"];
         $newPost->content = $data["content"];
         $newPost->published = isset($data["published"]);
+        $newPost->category_id = $data["category_id"];
 
         $slug = Str::of($newPost->title)->slug("-");
         $count = 1;
@@ -93,7 +99,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view("admin.posts.edit", compact("post"));
+        return view("admin.posts.edit", compact("post", "categories"));
     }
 
     /**
@@ -129,7 +135,7 @@ class PostsController extends Controller
 
 
         $post->content = $data["content"];
-
+        $post->category_id = $data["category_id"];
         $post->published = isset($data["published"]);
 
 
